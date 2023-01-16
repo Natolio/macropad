@@ -3,8 +3,6 @@ print("Starting")
 import board
 import time
 
-time.sleep(3)
-
 from kmk.kmk_keyboard import KMKKeyboard
 from kmk.keys import KC
 from kmk.matrix import DiodeOrientation
@@ -36,20 +34,22 @@ rgb_ext = RGB(pixel_pin = board.D10, num_pixels=4, hue_default=150)
 midi_ext = Midi()
 keyboard.extensions.append(rgb_ext)
 keyboard.extensions.append(midi_ext)
-keyboard.debug_enabled = False
+keyboard.debug_enabled = True
 
 
-# class Layers(_Layers):
-#    last_top_layer = 0
-#    hues = (4, 20, 69)
-#
-#    def after_hid_send(keyboard):
-#        if keyboard.active_layers[0] != self.last_top_layer:
-#            self.last_top_layer = keyboard.active_layers[0]
-#            rgb_ext.set_hsv_fill(self.hues[self.last_top_layer], 255, 255)
+class Layers(_Layers):
+   last_top_layer = 0
+   hues = (150, 200, 250, 125)
 
-layers = _Layers()
-keyboard.modules.append(layers)
+   def after_hid_send(self, keyboard):
+       super().after_hid_send(keyboard)
+       if keyboard.active_layers[0] != self.last_top_layer:
+           self.last_top_layer = keyboard.active_layers[0]
+           rgb_ext.decrease_hue(rgb_ext.hue)
+           rgb_ext.increase_hue(self.hues[self.last_top_layer])
+
+# layers = _Layers()
+keyboard.modules.append(Layers())
 
 # MACROS BOTTOM ROW
 GMAIL = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox www.gmail.com'), KC.ENTER])
@@ -73,7 +73,7 @@ LOCK = simple_key_sequence([KC.LWIN(KC.L)])
 CUT_THAT = simple_key_sequence([KC.LCTRL(KC.F15)])
 NICE_SHOT = simple_key_sequence([KC.LCTRL(KC.F16)])
 BAD_SHOT = simple_key_sequence([KC.LCTRL(KC.F17)])
-TOWEL = simple_key_sequence([KC.LCTRL(KC.F18)])
+TOWEL = KC.TD(simple_key_sequence([KC.LCTRL(KC.F18)]),simple_key_sequence([KC.LCTRL(KC.F19)]))
 
 _______ = KC.TRNS
 xxxxxxx = KC.NO
