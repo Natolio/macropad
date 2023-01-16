@@ -61,8 +61,7 @@ REDDIT = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string
 PREVIOUS_TRACK = KC.MPRV
 PLAY_PAUSE = KC.MPLY
 NEXT_TRACK = KC.MNXT
-NICE = simple_key_sequence([KC.LCTRL(KC.F14)])
-
+MUTE = KC.MUTE
 
 # MACROS TOP ROW
 VOICEMEETER_RESTART = simple_key_sequence([KC.LCTRL(KC.F13)])
@@ -70,6 +69,8 @@ MUTE_DISCORD = simple_key_sequence([KC.LALT(KC.M)])
 DEAFEN_DISCORD = simple_key_sequence([KC.LALT(KC.D)])
 LOCK = simple_key_sequence([KC.LWIN(KC.L)])
 
+# SOUND BOARD
+NICE = simple_key_sequence([KC.LCTRL(KC.F14)])
 CUT_THAT = simple_key_sequence([KC.LCTRL(KC.F15)])
 NICE_SHOT = simple_key_sequence([KC.LCTRL(KC.F16)])
 BAD_SHOT = simple_key_sequence([KC.LCTRL(KC.F17)])
@@ -79,7 +80,7 @@ _______ = KC.TRNS
 xxxxxxx = KC.NO
 
 # LAYER SWITCHING TAP DANCE
-TD_LYRS = KC.TD(LOCK, KC.MO(1), KC.TO(3), KC.TO(2))
+TD_LYRS = KC.TD(LOCK, KC.MO(1), KC.TO(2), KC.TO(3))
 MIDI_OUT = KC.TD(KC.MIDI(71), xxxxxxx, xxxxxxx, KC.TO(0))
 SOUND_BOARD_OUT = KC.TD(NICE_SHOT, xxxxxxx, xxxxxxx, KC.TO(0))
 
@@ -92,7 +93,7 @@ keyboard.keymap = [
     # MACROS
     [
         VOICEMEETER_RESTART,   MUTE_DISCORD,     DEAFEN_DISCORD,    TD_LYRS,
-        PREVIOUS_TRACK,    PLAY_PAUSE,          NEXT_TRACK,    NICE,
+        PREVIOUS_TRACK,    PLAY_PAUSE,          NEXT_TRACK,    MUTE,
         GMAIL,    YTTV,       YOUTUBE,     REDDIT,
     ],
     # RGB CTL
@@ -117,6 +118,7 @@ keyboard.keymap = [
 
 encoders.map = [    ((KC.VOLU, KC.VOLD, KC.MUTE),           (KC.RGB_VAI,    KC.RGB_VAD,     KC.RGB_TOG)),   # MACROS
                     ((KC.RGB_ANI, KC.RGB_AND, xxxxxxx),     (KC.RGB_HUI,    KC.RGB_HUD,     _______   )),   # RGB CTL
+                    ((KC.VOLU, KC.VOLD, KC.MUTE),           (KC.RGB_VAI,    KC.RGB_VAD,     KC.RGB_TOG)),   # SOUND BOARD
                     ((KC.VOLU, KC.VOLD, KC.MUTE),           (KC.RGB_VAI,    KC.RGB_VAD,     KC.RGB_TOG)),   # MIDI
                ]
 
