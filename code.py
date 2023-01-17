@@ -10,6 +10,8 @@ from kmk.handlers.sequences import send_string, simple_key_sequence
 from kmk.modules.layers import Layers as _Layers
 from kmk.modules.encoder import EncoderHandler
 from kmk.modules.tapdance import TapDance
+from kmk.modules.modtap import ModTap
+from kmk.modules.holdtap import HoldTapRepeat
 from kmk.extensions.RGB import RGB
 from midi import Midi
 
@@ -18,8 +20,9 @@ from midi import Midi
 keyboard = KMKKeyboard()
 encoders = EncoderHandler()
 tapdance = TapDance()
+modtap = ModTap()
 tapdance.tap_time = 250
-keyboard.modules = [encoders, tapdance]
+keyboard.modules = [encoders, tapdance, modtap]
 
 # SWITCH MATRIX
 keyboard.col_pins = (board.D3, board.D4, board.D5, board.D6)
@@ -80,9 +83,10 @@ _______ = KC.TRNS
 xxxxxxx = KC.NO
 
 # LAYER SWITCHING TAP DANCE
-TD_LYRS = KC.TD(LOCK, KC.MO(1), KC.TO(2), KC.TO(3))
-MIDI_OUT = KC.TD(KC.MIDI(71), xxxxxxx, xxxxxxx, KC.TO(0))
-SOUND_BOARD_OUT = KC.TD(NICE_SHOT, xxxxxxx, xxxxxxx, KC.TO(0))
+TD_LYRS = KC.TD(LOCK, KC.TO(1), KC.TO(2), KC.TO(3))
+RGB_OUT = KC.MT(xxxxxxx, KC.TO(0))
+MIDI_OUT = KC.MT(KC.MIDI(71), KC.TO(0))
+SOUND_BOARD_OUT = KC.MT(NICE_SHOT, KC.TO(0))
 
 # array of default MIDI notes
 # midi_notes = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75]
@@ -93,12 +97,12 @@ keyboard.keymap = [
     # MACROS
     [
         VOICEMEETER_RESTART,   MUTE_DISCORD,     DEAFEN_DISCORD,    TD_LYRS,
-        PREVIOUS_TRACK,    PLAY_PAUSE,          NEXT_TRACK,    MUTE,
+        PREVIOUS_TRACK,    PLAY_PAUSE,          NEXT_TRACK,    KC.MT(NICE, MUTE, repeat=HoldTapRepeat.NONE),
         GMAIL,    YTTV,       YOUTUBE,     REDDIT,
     ],
     # RGB CTL
     [
-        xxxxxxx,    xxxxxxx,            xxxxxxx,                xxxxxxx,
+        xxxxxxx,    xxxxxxx,            xxxxxxx,                RGB_OUT,
         xxxxxxx,    KC.RGB_MODE_SWIRL,  KC.RGB_MODE_KNIGHT,     KC.RGB_MODE_BREATHE_RAINBOW,
         xxxxxxx,    KC.RGB_MODE_PLAIN,  KC.RGB_MODE_BREATHE,    KC.RGB_MODE_RAINBOW,
     ],
