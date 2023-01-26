@@ -42,7 +42,7 @@ keyboard.debug_enabled = True
 
 class Layers(_Layers):
    last_top_layer = 0
-   hues = (150, 200, 250, 125)
+   hues = (150, 200, 250, 125, 175)
 
    def after_hid_send(self, keyboard):
        super().after_hid_send(keyboard)
@@ -55,10 +55,14 @@ class Layers(_Layers):
 keyboard.modules.append(Layers())
 
 # MACROS BOTTOM ROW
-GMAIL = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox www.gmail.com'), KC.ENTER])
-YTTV = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox https://tv.youtube.com'), KC.ENTER])
-YOUTUBE = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox www.youtube.com'), KC.ENTER])
-REDDIT = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox https://old.reddit.com'), KC.ENTER])
+# GMAIL = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox www.gmail.com'), KC.ENTER])
+# YTTV = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox https://tv.youtube.com'), KC.ENTER])
+# YOUTUBE = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox www.youtube.com'), KC.ENTER])
+# REDDIT = simple_key_sequence([KC.LWIN(KC.R), KC.MACRO_SLEEP_MS(250), send_string('firefox https://old.reddit.com'), KC.ENTER])
+GMAIL = KC.LSHIFT(KC.F13)
+YTTV = KC.LSHIFT(KC.F14)
+YOUTUBE = KC.LSHIFT(KC.F15)
+REDDIT = KC.LSHIFT(KC.F16)
 
 # MACROS MIDDLE ROW
 PREVIOUS_TRACK = KC.MPRV
@@ -79,14 +83,22 @@ NICE_SHOT = simple_key_sequence([KC.LCTRL(KC.F16)])
 BAD_SHOT = simple_key_sequence([KC.LCTRL(KC.F17)])
 TOWEL = KC.TD(simple_key_sequence([KC.LCTRL(KC.F18)]),simple_key_sequence([KC.LCTRL(KC.F19)]))
 
+# LIGHT CONTROLLER
+TOGGLE_LIGHTS = KC.LSHIFT(KC.F17)
+INCREASE_BRIGHTNESS = KC.LSHIFT(KC.F18)
+DECREASE_BRIGHTNESS = KC.LSHIFT(KC.F19)
+INCREASE_ANIMATION = KC.LSHIFT(KC.F20)
+DECREASE_ANIMATION = KC.LSHIFT(KC.F21)
+
 _______ = KC.TRNS
 xxxxxxx = KC.NO
 
 # LAYER SWITCHING TAP DANCE
-TD_LYRS = KC.TD(LOCK, KC.TO(1), KC.TO(2), KC.TO(3))
+TD_LYRS = KC.TD(LOCK, KC.TO(1), KC.TO(2), KC.TO(3), KC.TO(4))
 RGB_OUT = KC.MT(xxxxxxx, KC.TO(0))
-MIDI_OUT = KC.MT(KC.MIDI(71), KC.TO(0))
 SOUND_BOARD_OUT = KC.MT(NICE_SHOT, KC.TO(0))
+LIGHT_CONTROLLER_OUT = KC.MT(xxxxxxx, KC.TO(0))
+MIDI_OUT = KC.MT(KC.MIDI(71), KC.TO(0))
 
 # array of default MIDI notes
 # midi_notes = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75]
@@ -112,6 +124,12 @@ keyboard.keymap = [
         BAD_SHOT, TOWEL,  xxxxxxx, xxxxxxx,
         xxxxxxx, xxxxxxx,  xxxxxxx, xxxxxxx,
     ],
+    # LIGHT CONTROLLER OUT
+    [
+        xxxxxxx, INCREASE_BRIGHTNESS, xxxxxxx, LIGHT_CONTROLLER_OUT,
+        DECREASE_ANIMATION, TOGGLE_LIGHTS,  INCREASE_ANIMATION, xxxxxxx,
+        xxxxxxx, DECREASE_BRIGHTNESS,  xxxxxxx, xxxxxxx,
+    ],
     # MIDI
     [
         KC.MIDI(68),    KC.MIDI(69),      KC.MIDI(70),       MIDI_OUT,
@@ -123,6 +141,7 @@ keyboard.keymap = [
 encoders.map = [    ((KC.VOLU, KC.VOLD, KC.MUTE),           (KC.RGB_VAI,    KC.RGB_VAD,     KC.RGB_TOG)),   # MACROS
                     ((KC.RGB_ANI, KC.RGB_AND, xxxxxxx),     (KC.RGB_HUI,    KC.RGB_HUD,     _______   )),   # RGB CTL
                     ((KC.VOLU, KC.VOLD, KC.MUTE),           (KC.RGB_VAI,    KC.RGB_VAD,     KC.RGB_TOG)),   # SOUND BOARD
+                    ((KC.VOLU, KC.VOLD, KC.MUTE),           (INCREASE_BRIGHTNESS,    DECREASE_BRIGHTNESS,     TOGGLE_LIGHTS)),   # LIGHT CONTROLLER
                     ((KC.VOLU, KC.VOLD, KC.MUTE),           (KC.RGB_VAI,    KC.RGB_VAD,     KC.RGB_TOG)),   # MIDI
                ]
 
